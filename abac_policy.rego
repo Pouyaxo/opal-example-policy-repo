@@ -12,12 +12,12 @@ allow {
     user_role := user.role
     
     # Check if user has any permissions for this action and resource type
-    some permission
-    permission := data.permissions[_]
-    permission.role_id == user_role
-    permission.resource_type == input.resource.type
-    permission.action == input.action
-    permission.is_granted == true
+    some permission_item
+    permission_item := data.permissions[_]
+    permission_item.role_id == user_role
+    permission_item.resource_type == input.resource.type
+    permission_item.action == input.action
+    permission_item.is_granted == true
     
     # Check if user matches any user set conditions
     user_matches_user_set(user, input.user.attributes)
@@ -42,24 +42,24 @@ user_matches_user_set(user, user_attributes) {
 # Helper function to check if user attributes match user set conditions
 user_attributes_match_conditions(user_attrs, user_set_id) {
     # Get all conditions for this user set
-    some user_condition
-    user_condition := data.user_set_conditions[_]
-    user_condition.user_set_id == user_set_id
+    some user_condition_item
+    user_condition_item := data.user_set_conditions[_]
+    user_condition_item.user_set_id == user_set_id
     
     # Check if the condition is satisfied
-    condition_satisfied(user_condition, user_attrs)
+    condition_satisfied(user_condition_item, user_attrs)
 }
 
 # Helper function to check if a condition is satisfied
-condition_satisfied(condition, user_attrs) {
+condition_satisfied(condition_item, user_attrs) {
     # Extract attribute name from condition
-    attr_name := condition.attribute_name
+    attr_name := condition_item.attribute_name
     
     # Get attribute value from user attributes
     attr_value := user_attrs[attr_name]
     
     # Apply the operator
-    apply_operator(condition.operator, attr_value, condition.comparison_value)
+    apply_operator(condition_item.operator, attr_value, condition_item.comparison_value)
 }
 
 # Helper function to apply operators
@@ -102,24 +102,24 @@ resource_matches_resource_set(resource_attrs) {
 # Helper function to check if resource attributes match resource set conditions
 resource_attributes_match_conditions(resource_attrs, resource_set_id) {
     # Get all conditions for this resource set
-    some resource_condition
-    resource_condition := data.resource_set_conditions[_]
-    resource_condition.resource_set_id == resource_set_id
+    some resource_condition_item
+    resource_condition_item := data.resource_set_conditions[_]
+    resource_condition_item.resource_set_id == resource_set_id
     
     # Check if the condition is satisfied
-    resource_condition_satisfied(resource_condition, resource_attrs)
+    resource_condition_satisfied(resource_condition_item, resource_attrs)
 }
 
 # Helper function to check if a resource condition is satisfied
-resource_condition_satisfied(condition, resource_attrs) {
+resource_condition_satisfied(condition_item, resource_attrs) {
     # Extract attribute name from condition
-    attr_name := condition.attribute_name
+    attr_name := condition_item.attribute_name
     
     # Get attribute value from resource attributes
     attr_value := resource_attrs[attr_name]
     
     # Apply the operator
-    apply_operator(condition.operator, attr_value, condition.comparison_value)
+    apply_operator(condition_item.operator, attr_value, condition_item.comparison_value)
 }
 
 # Helper function to convert string to number
