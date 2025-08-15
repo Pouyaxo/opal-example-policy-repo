@@ -24,6 +24,8 @@ allow {
     
     # Get the attribute name and value from the condition
     attr_name := user_condition.attribute_name
+    
+    # Check if the user has this attribute in the input
     user_attr_value := input.user.attributes[attr_name]
     
     # Check if the user condition is satisfied
