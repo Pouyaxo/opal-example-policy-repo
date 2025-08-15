@@ -49,7 +49,7 @@ allow {
     resource_attr_name := resource_condition.attribute_name
     resource_attr_value := input.resource.attributes[resource_attr_name]
     
-    # Check resource conditions - use separate expressions for AND logic
+    # Check resource conditions - equals operator
     resource_condition.operator == "equals"
     resource_attr_value == resource_condition.comparison_value
 }
