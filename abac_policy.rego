@@ -23,43 +23,43 @@ allow {
 
 # Check if user has permission
 has_permission(role_id, resource_type, action) {
-    some permission_var
-    permission_var := data.permissions[_]
-    permission_var.role_id == role_id
-    permission_var.resource_type == resource_type
-    permission_var.action == action
-    permission_var.is_granted == true
+    some permission
+    permission := data.permissions[_]
+    permission.role_id == role_id
+    permission.resource_type == resource_type
+    permission.action == action
+    permission.is_granted == true
 }
 
 # Check if user matches user set conditions
 user_matches_conditions(role_id, user_attributes) {
-    some user_set_var
-    user_set_var := data.user_sets[_]
-    user_set_var.role_id == role_id
+    some user_set
+    user_set := data.user_sets[_]
+    user_set.role_id == role_id
     
-    some user_condition_var
-    user_condition_var := data.user_set_conditions[_]
-    user_condition_var.user_set_id == user_set_var.id
+    some condition
+    condition := data.user_set_conditions[_]
+    condition.user_set_id == user_set.id
     
     # Check if the condition is satisfied
-    attr_name := user_condition_var.attribute_name
+    attr_name := condition.attribute_name
     attr_value := user_attributes[attr_name]
-    user_condition_var.operator == "equals"
-    attr_value == user_condition_var.comparison_value
+    condition.operator == "equals"
+    attr_value == condition.comparison_value
 }
 
 # Check if resource matches resource set conditions
 resource_matches_conditions(resource_attributes) {
-    some resource_set_var
-    resource_set_var := data.resource_sets[_]
-    resource_set_var.key == "services"  # For services resource type
+    some resource_set
+    resource_set := data.resource_sets[_]
+    resource_set.key == "services"  # For services resource type
     
-    some resource_condition_var
-    resource_condition_var := data.resource_set_conditions[_]
-    resource_condition_var.resource_set_id == resource_set_var.id
+    some condition
+    condition := data.resource_set_conditions[_]
+    condition.resource_set_id == resource_set.id
     
     # Check if the resource condition is satisfied
-    resource_condition_satisfied(resource_condition_var, resource_attributes)
+    resource_condition_satisfied(condition, resource_attributes)
 }
 
 # Helper rule for equals operator
