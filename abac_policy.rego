@@ -29,25 +29,25 @@ allow {
 # Helper function to check if user matches user set conditions
 user_matches_user_set(user, user_attributes) {
     # Find a user set that matches the user's role
-    some user_set
-    user_set := data.user_sets[_]
+    some user_set_item
+    user_set_item := data.user_sets[_]
     
     # Check if user set has the right role
-    user_set.role_id == user.role
+    user_set_item.role_id == user.role
     
     # Check if user attributes match user set conditions
-    user_attributes_match_conditions(user_attributes, user_set.id)
+    user_attributes_match_conditions(user_attributes, user_set_item.id)
 }
 
 # Helper function to check if user attributes match user set conditions
 user_attributes_match_conditions(user_attrs, user_set_id) {
     # Get all conditions for this user set
-    some condition
-    condition := data.user_set_conditions[_]
-    condition.user_set_id == user_set_id
+    some user_condition
+    user_condition := data.user_set_conditions[_]
+    user_condition.user_set_id == user_set_id
     
     # Check if the condition is satisfied
-    condition_satisfied(condition, user_attrs)
+    condition_satisfied(user_condition, user_attrs)
 }
 
 # Helper function to check if a condition is satisfied
@@ -91,23 +91,23 @@ apply_operator(operator, value, comparison_value) {
 # Helper function to check if resource matches resource set conditions
 resource_matches_resource_set(resource_attrs) {
     # Find a resource set that matches the resource type
-    some resource_set
-    resource_set := data.resource_sets[_]
-    resource_set.key == "services"  # For services resource type
+    some resource_set_item
+    resource_set_item := data.resource_sets[_]
+    resource_set_item.key == "services"  # For services resource type
     
     # Check if resource attributes match resource set conditions
-    resource_attributes_match_conditions(resource_attrs, resource_set.id)
+    resource_attributes_match_conditions(resource_attrs, resource_set_item.id)
 }
 
 # Helper function to check if resource attributes match resource set conditions
 resource_attributes_match_conditions(resource_attrs, resource_set_id) {
     # Get all conditions for this resource set
-    some condition
-    condition := data.resource_set_conditions[_]
-    condition.resource_set_id == resource_set_id
+    some resource_condition
+    resource_condition := data.resource_set_conditions[_]
+    resource_condition.resource_set_id == resource_set_id
     
     # Check if the condition is satisfied
-    resource_condition_satisfied(condition, resource_attrs)
+    resource_condition_satisfied(resource_condition, resource_attrs)
 }
 
 # Helper function to check if a resource condition is satisfied
