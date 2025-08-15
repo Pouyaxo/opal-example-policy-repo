@@ -5,29 +5,19 @@ default allow = false
 
 # ABAC Policy: Allow access based on user and resource attributes
 allow {
-    # Get user data from the database (data is at specific paths)
+    # Get user data from the database
     some user_idx
     user := data.users.result[user_idx]
     user.email == input.user.key
     
-    # Get user's role from user_roles table
-    some user_role_idx
-    user_role := data.user_roles.result[user_role_idx]
-    user_role.user_id == user.id
-    
-    # Check if user has permission for this action and resource type
-    some permission_idx
-    permission := data.permissions.result[permission_idx]
-    permission.role_id == user_role.role_id
-    permission.resource_type == input.resource.type
-    permission.action == input.action
-    permission.is_granted == true
-    
     # Check if user matches user set conditions (location, department, etc.)
     some user_set_idx
     user_set := data.user_sets.result[user_set_idx]
-    user_set.role_id == user_role.role_id
     
+    # Check if user set is active
+    user_set.is_active == true
+    
+    # Check if user matches user set conditions
     some user_condition_idx
     user_condition := data.user_set_conditions.result[user_condition_idx]
     user_condition.user_set_id == user_set.id
@@ -40,11 +30,22 @@ allow {
     user_condition.operator == "equals"
     user_attr_value == user_condition.comparison_value
     
-    # Check if resource matches resource set conditions
+    # Check if user has permission for this action and resource type
+    some permission_idx
+    permission := data.permissions.result[permission_idx]
+    permission.role_id == user_set.id
+    permission.role_type == "userSet"
+    permission.resource_type == "resourceSet"
+    permission.action == input.action
+    permission.is_granted == true
+    
+    # Get the resource set that permission grants access to
     some resource_set_idx
     resource_set := data.resource_sets.result[resource_set_idx]
-    resource_set.key == "services"
+    resource_set.id == permission.resource_id
+    resource_set.is_active == true
     
+    # Check if resource matches resource set conditions
     some resource_condition_idx
     resource_condition := data.resource_set_conditions.result[resource_condition_idx]
     resource_condition.resource_set_id == resource_set.id
@@ -64,11 +65,11 @@ check_resource_condition(operator, attr_value, comparison_value) {
 }
 
 check_resource_condition(operator, attr_value, comparison_value) {
-    operator == "less-than"
+    operator == "lessThan"
     to_number(attr_value) < to_number(comparison_value)
 }
 
 check_resource_condition(operator, attr_value, comparison_value) {
-    operator == "greater-than-or-equals"
+    operator == "greaterThanOrEqual"
     to_number(attr_value) >= to_number(comparison_value)
 }
