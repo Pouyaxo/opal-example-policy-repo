@@ -19,8 +19,3 @@ allow {
     permission.action == input.action
     permission.is_granted == true
 }
-
-# Convert string to number
-to_number(value) = output {
-    output := to_number(value)
-}
