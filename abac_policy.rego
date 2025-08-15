@@ -7,19 +7,19 @@ default allow = false
 allow {
     # Get user data from the database
     some user_idx
-    user := data.users.result[user_idx]
+    user := data.users[user_idx]
     user.email == input.user.key
     
     # Check if user matches user set conditions (location, department, etc.)
     some user_set_idx
-    user_set := data.user_sets.result[user_set_idx]
+    user_set := data.user_sets[user_set_idx]
     
     # Check if user set is active
     user_set.is_active == true
     
     # Check if user matches user set conditions
     some user_condition_idx
-    user_condition := data.user_set_conditions.result[user_condition_idx]
+    user_condition := data.user_set_conditions[user_condition_idx]
     user_condition.user_set_id == user_set.id
     
     # Get the attribute name and value from the condition
@@ -34,7 +34,7 @@ allow {
     
     # Check if user has permission for this action and resource type
     some permission_idx
-    permission := data.permissions.result[permission_idx]
+    permission := data.permissions[permission_idx]
     permission.role_id == user_set.id
     permission.role_type == "userSet"
     permission.resource_type == "resourceSet"
@@ -43,13 +43,13 @@ allow {
     
     # Get the resource set that permission grants access to
     some resource_set_idx
-    resource_set := data.resource_sets.result[resource_set_idx]
+    resource_set := data.resource_sets[resource_set_idx]
     resource_set.id == permission.resource_id
     resource_set.is_active == true
     
     # Check if resource matches resource set conditions
     some resource_condition_idx
-    resource_condition := data.resource_set_conditions.result[resource_condition_idx]
+    resource_condition := data.resource_set_conditions[resource_condition_idx]
     resource_condition.resource_set_id == resource_set.id
     
     # Get the resource attribute name and value
