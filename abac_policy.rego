@@ -26,31 +26,23 @@ allow {
     resource_matches_resource_set(input.resource.attributes)
 }
 
-# Helper function to check if user matches user set conditions
+# Check if user matches user set conditions
 user_matches_user_set(user, user_attributes) {
     # Find a user set that matches the user's role
     some user_set_item
     user_set_item := data.user_sets[_]
-    
-    # Check if user set has the right role
     user_set_item.role_id == user.role
     
     # Check if user attributes match user set conditions
-    user_attributes_match_conditions(user_attributes, user_set_item.id)
-}
-
-# Helper function to check if user attributes match user set conditions
-user_attributes_match_conditions(user_attrs, user_set_id) {
-    # Get all conditions for this user set
     some user_condition_item
     user_condition_item := data.user_set_conditions[_]
-    user_condition_item.user_set_id == user_set_id
+    user_condition_item.user_set_id == user_set_item.id
     
     # Check if the condition is satisfied
-    condition_satisfied(user_condition_item, user_attrs)
+    condition_satisfied(user_condition_item, user_attributes)
 }
 
-# Helper function to check if a condition is satisfied
+# Check if a condition is satisfied
 condition_satisfied(condition_item, user_attrs) {
     # Extract attribute name from condition
     attr_name := condition_item.attribute_name
@@ -62,7 +54,7 @@ condition_satisfied(condition_item, user_attrs) {
     apply_operator(condition_item.operator, attr_value, condition_item.comparison_value)
 }
 
-# Helper function to apply operators
+# Apply operators
 apply_operator(operator, value, comparison_value) {
     operator == "equals"
     value == comparison_value
@@ -88,7 +80,7 @@ apply_operator(operator, value, comparison_value) {
     to_number(value) <= to_number(comparison_value)
 }
 
-# Helper function to check if resource matches resource set conditions
+# Check if resource matches resource set conditions
 resource_matches_resource_set(resource_attrs) {
     # Find a resource set that matches the resource type
     some resource_set_item
@@ -96,21 +88,15 @@ resource_matches_resource_set(resource_attrs) {
     resource_set_item.key == "services"  # For services resource type
     
     # Check if resource attributes match resource set conditions
-    resource_attributes_match_conditions(resource_attrs, resource_set_item.id)
-}
-
-# Helper function to check if resource attributes match resource set conditions
-resource_attributes_match_conditions(resource_attrs, resource_set_id) {
-    # Get all conditions for this resource set
     some resource_condition_item
     resource_condition_item := data.resource_set_conditions[_]
-    resource_condition_item.resource_set_id == resource_set_id
+    resource_condition_item.resource_set_id == resource_set_item.id
     
     # Check if the condition is satisfied
     resource_condition_satisfied(resource_condition_item, resource_attrs)
 }
 
-# Helper function to check if a resource condition is satisfied
+# Check if a resource condition is satisfied
 resource_condition_satisfied(condition_item, resource_attrs) {
     # Extract attribute name from condition
     attr_name := condition_item.attribute_name
@@ -122,7 +108,7 @@ resource_condition_satisfied(condition_item, resource_attrs) {
     apply_operator(condition_item.operator, attr_value, condition_item.comparison_value)
 }
 
-# Helper function to convert string to number
+# Convert string to number
 to_number(value) = output {
     output := to_number(value)
 }
