@@ -35,22 +35,38 @@ allow {
     attr_value == user_condition_item.comparison_value
     
     # Check if resource matches any resource set conditions
-    some resource_set_item_2
-    resource_set_item_2 := data.resource_sets[_]
-    resource_set_item_2.key == "services"  # For services resource type
+    some resource_set_item
+    resource_set_item := data.resource_sets[_]
+    resource_set_item.key == "services"  # For services resource type
     
-    some resource_condition_item_2
-    resource_condition_item_2 := data.resource_set_conditions[_]
-    resource_condition_item_2.resource_set_id == resource_set_item_2.id
+    some resource_condition_item
+    resource_condition_item := data.resource_set_conditions[_]
+    resource_condition_item.resource_set_id == resource_set_item.id
     
     # Check if the resource condition is satisfied
-    resource_attr_name := resource_condition_item_2.attribute_name
+    resource_attr_name := resource_condition_item.attribute_name
     resource_attr_value := input.resource.attributes[resource_attr_name]
     
-    # Handle different operators
-    (resource_condition_item_2.operator == "equals" && resource_attr_value == resource_condition_item_2.comparison_value) ||
-    (resource_condition_item_2.operator == "less-than" && to_number(resource_attr_value) < to_number(resource_condition_item_2.comparison_value)) ||
-    (resource_condition_item_2.operator == "greater-than-or-equals" && to_number(resource_attr_value) >= to_number(resource_condition_item_2.comparison_value))
+    # Handle different operators using separate rules
+    resource_condition_satisfied(resource_condition_item, resource_attr_value)
+}
+
+# Helper rule for equals operator
+resource_condition_satisfied(condition, value) {
+    condition.operator == "equals"
+    value == condition.comparison_value
+}
+
+# Helper rule for less-than operator
+resource_condition_satisfied(condition, value) {
+    condition.operator == "less-than"
+    to_number(value) < to_number(condition.comparison_value)
+}
+
+# Helper rule for greater-than-or-equals operator
+resource_condition_satisfied(condition, value) {
+    condition.operator == "greater-than-or-equals"
+    to_number(value) >= to_number(condition.comparison_value)
 }
 
 # Convert string to number
