@@ -1,21 +1,19 @@
 package abac
 
-import data.result
-
 # Default deny
 default allow = false
 
 # Allow if user has permission based on ABAC evaluation
 allow {
     # Get user data
-    user := result.users[input.user.key]
+    user := data.users[input.user.key]
     
     # Get user's role
     user_role := user.role
     
     # Check if user has any permissions for this action and resource type
     some permission
-    permission := result.permissions[_]
+    permission := data.permissions[_]
     permission.role_id == user_role
     permission.resource_type == input.resource.type
     permission.action == input.action
@@ -32,7 +30,7 @@ allow {
 user_matches_user_set(user, user_attributes) {
     # Find a user set that matches the user's role
     some user_set
-    user_set := result.user_sets[_]
+    user_set := data.user_sets[_]
     
     # Check if user set has the right role
     user_set.role_id == user.role
@@ -45,7 +43,7 @@ user_matches_user_set(user, user_attributes) {
 user_attributes_match_conditions(user_attrs, user_set_id) {
     # Get all conditions for this user set
     some condition
-    condition := result.user_set_conditions[_]
+    condition := data.user_set_conditions[_]
     condition.user_set_id == user_set_id
     
     # Check if the condition is satisfied
@@ -94,7 +92,7 @@ apply_operator(operator, value, comparison_value) {
 resource_matches_resource_set(resource_attrs) {
     # Find a resource set that matches the resource type
     some resource_set
-    resource_set := result.resource_sets[_]
+    resource_set := data.resource_sets[_]
     resource_set.key == "services"  # For services resource type
     
     # Check if resource attributes match resource set conditions
@@ -105,7 +103,7 @@ resource_matches_resource_set(resource_attrs) {
 resource_attributes_match_conditions(resource_attrs, resource_set_id) {
     # Get all conditions for this resource set
     some condition
-    condition := result.resource_set_conditions[_]
+    condition := data.resource_set_conditions[_]
     condition.resource_set_id == resource_set_id
     
     # Check if the condition is satisfied
