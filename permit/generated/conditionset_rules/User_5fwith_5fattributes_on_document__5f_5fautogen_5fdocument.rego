@@ -1,0 +1,15 @@
+package permit.generated.conditionset.rules
+
+import future.keywords.in
+
+import data.permit.generated.abac.utils.attributes
+import data.permit.generated.abac.utils.condition_set_permissions
+import data.permit.generated.conditionset
+
+default User_5f5fwith_5f5fattributes_5fon_5fdocument_5f_5f5f_5f5fautogen_5f5fdocument = false
+
+User_5f5fwith_5f5fattributes_5fon_5fdocument_5f_5f5f_5f5fautogen_5f5fdocument {
+	conditionset.userset_User_5fwith_5fattributes
+	conditionset.resourceset__5f_5fautogen_5fdocument
+	input.action in condition_set_permissions.User_with_attributes.__autogen_document[input.resource.type]
+}
