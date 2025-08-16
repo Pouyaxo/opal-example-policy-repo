@@ -1,12 +1,12 @@
-package permit.debug.rbac
+package xolab.debug.rbac
 
 import future.keywords.in
 
-import data.permit.abac
-import data.permit.debug.utils as debug_utils
-import data.permit.policies
-import data.permit.root
-import data.permit.utils
+import data.xolab.abac
+import data.xolab.debug.utils as debug_utils
+import data.xolab.policies
+import data.xolab.root
+import data.xolab.utils
 
 # please note !
 # this file uses parameters from different files with the same package name,

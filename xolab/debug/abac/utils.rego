@@ -1,8 +1,8 @@
-package permit.debug.abac
+package xolab.debug.abac
 
-import data.permit.abac
-import data.permit.utils
-import data.permit.utils.abac as abac_utils
+import data.xolab.abac
+import data.xolab.utils
+import data.xolab.utils.abac as abac_utils
 import future.keywords.in
 
 # The purpose of those values is to forward abac policy package values to the debug package

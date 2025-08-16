@@ -1,6 +1,6 @@
-package permit.utils.rbac
+package xolab.utils.rbac
 
-import data.permit.utils
+import data.xolab.utils
 import future.keywords.in
 
 user_roles[roleKey] {

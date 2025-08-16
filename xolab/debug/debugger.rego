@@ -1,14 +1,14 @@
-package permit.debug
+package xolab.debug
 
 import future.keywords.in
 
-import data.permit.custom
-import data.permit.debug.abac
-import data.permit.debug.rbac
-import data.permit.policies
-import data.permit.root
-import data.permit.utils
-import data.permit.utils.abac as abac_utils
+import data.xolab.custom
+import data.xolab.debug.abac
+import data.xolab.debug.rbac
+import data.xolab.policies
+import data.xolab.root
+import data.xolab.utils
+import data.xolab.utils.abac as abac_utils
 
 default __debug_tenant = null
 

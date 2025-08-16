@@ -1,4 +1,4 @@
-package permit.debug.utils
+package sxolab.debug.utils
 
 __slice_arr(arr) = sliced_arr {
 	is_array(arr)

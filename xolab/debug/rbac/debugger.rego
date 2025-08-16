@@ -1,9 +1,9 @@
-package permit.debug.rbac
+package xolab.debug.rbac
 
-import data.permit.debug.utils as debug_utils
-import data.permit.rbac
-import data.permit.rbac_utils
-import data.permit.utils
+import data.xolab.debug.utils as debug_utils
+import data.xolab.rbac
+import data.xolab.rbac_utils
+import data.xolab.utils
 import future.keywords.in
 
 default details := null

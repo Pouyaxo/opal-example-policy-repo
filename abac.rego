@@ -1,9 +1,9 @@
-package permit.abac
+package xolab.abac
 
 import future.keywords.in
 
-import data.permit.generated.conditionset
-import data.permit.utils.abac as utils
+import data.xolab.generated.conditionset
+import data.xolab.utils.abac as utils
 
 default allow := false
 

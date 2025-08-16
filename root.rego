@@ -1,8 +1,8 @@
-package permit.root
+package xolab.root
 
-import data.permit.custom
-import data.permit.debug
-import data.permit.policies
+import data.xolab.custom
+import data.xolab.debug
+import data.xolab.policies
 
 default allow := false
 

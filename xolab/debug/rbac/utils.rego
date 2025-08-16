@@ -1,7 +1,7 @@
-package permit.debug.rbac
+package xolab.debug.rbac
 
-import data.permit.debug.utils as debug_utils
-import data.permit.rbac
+import data.xolab.debug.utils as debug_utils
+import data.xolab.rbac
 
 # The purpose of those values is to forward rbac policy package values to the debug package
 allow = rbac.allow

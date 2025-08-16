@@ -1,9 +1,9 @@
-package permit.debug.abac
+package xolab.debug.abac
 
 import future.keywords.in
 
-import data.permit.debug.utils as debug_utils
-import data.permit.utils
+import data.xolab.debug.utils as debug_utils
+import data.xolab.utils
 
 # please note !
 # this file uses parameters from different files with the same package name,

@@ -1,7 +1,7 @@
-package permit.utils.abac
+package xolab.utils.abac
 
-import data.permit.utils
-import data.permit.utils.rbac
+import data.xolab.utils
+import data.xolab.utils.rbac
 
 __generated_user_attributes = {
 	"roles": rbac.user_roles,
@@ -46,9 +46,9 @@ __input_tenant_attributes = input.tenant.attributes
 
 __input_context_attributes = input.context
 
-__custom_user_attributes = data.permit.custom.custom_user_attributes
+__custom_user_attributes = data.xolab.custom.custom_user_attributes
 
-__custom_tenant_attributes = data.permit.custom.custom_tenant_attributes
+__custom_tenant_attributes = data.xolab.custom.custom_tenant_attributes
 
 __custom_resource_attributes = data.permit.custom.custom_resource_attributes
 

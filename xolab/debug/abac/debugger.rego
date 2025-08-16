@@ -1,7 +1,7 @@
-package permit.debug.abac
+package xolab.debug.abac
 
-import data.permit.abac
-import data.permit.conditionset
+import data.xolab.abac
+import data.xolab.conditionset
 import future.keywords.in
 
 default details := null
