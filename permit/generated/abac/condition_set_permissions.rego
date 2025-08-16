@@ -5,8 +5,8 @@ package permit.generated.abac.utils
 
 condition_set_permissions = {
   "engineerManagersUSA": {
-    "servicesAbove500USD": {
-      "Services Above 500USD": [
+    "servicesBelow500USD": {
+      "servicesbelow500usd": [
         "subscribe"
       ]
     }
