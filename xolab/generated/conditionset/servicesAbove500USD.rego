@@ -8,6 +8,6 @@ default resourceset_servicesAbove500USD = false
 
 resourceset_servicesAbove500USD {
 	attributes.resource.type == "Services"
-	attributes.resource.cost greaterThanOrEqual "500"
-		attributes.resource.hasApproval equals true
+	attributes.resource.cost >= 500
+	attributes.resource.hasApproval == true
 }

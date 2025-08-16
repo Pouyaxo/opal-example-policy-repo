@@ -7,6 +7,6 @@ import data.xolab.generated.abac.utils.attributes
 default userset_engineerManagersInTheUsa = false
 
 userset_engineerManagersInTheUsa {
-	attributes.user.location equals "USA"
-		attributes.user.department equals "Eng"
+	attributes.user.location == "USA"
+	attributes.user.department == "Eng"
 }
