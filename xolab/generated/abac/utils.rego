@@ -22,16 +22,26 @@ merge_objects(a, b) = c {
 	c := {k: v | some k; ks[k]; v := pick_first(k, b, a)}
 }
 
-# Default values for attributes
-default __generated_user_attributes = {"roles": []}
-default __generated_resource_attributes = {"type": input.resource.type}
+# Get user roles from database (this was missing!)
+roles[roleKey] {
+	some roleKey in data.users[input.user.key].roleAssignments[input.resource.tenant]
+}
+
+# Use dynamic roles instead of static default
+__generated_user_attributes = {"roles": roles}
+
+__generated_resource_attributes = {"type": input.resource.type}
+
 default __stored_user_attributes = {}
+
 default __input_user_attributes = {}
+
 default __input_resource_attributes = {}
+
 default __input_context_attributes = {}
 
 # Get stored user attributes from database
-__stored_user_attributes = data.user_attributes[input.user.key].attributes
+__stored_user_attributes = data.users[input.user.key].attributes
 
 # Get input attributes from request
 __input_user_attributes = input.user.attributes
@@ -48,5 +58,5 @@ attributes = {
 	"context": __input_context_attributes,
 }
 
-# Load permissions from database (this is the key line!)
+# Load permissions from database
 condition_set_permissions := data.condition_set_rules
