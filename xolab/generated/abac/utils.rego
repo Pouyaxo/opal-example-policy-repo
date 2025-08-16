@@ -22,40 +22,31 @@ merge_objects(a, b) = c {
 	c := {k: v | some k; ks[k]; v := pick_first(k, b, a)}
 }
 
-roles[roleKey] {
-	some roleKey in data.users[input.user.key].roleAssignments[input.resource.tenant]
-}
-
-__generated_user_attributes = {"roles": roles}
-
-__generated_resource_attributes = {"type": input.resource.type}
-
+# Default values for attributes
+default __generated_user_attributes = {"roles": []}
+default __generated_resource_attributes = {"type": input.resource.type}
 default __stored_user_attributes = {}
-
-__stored_user_attributes = data.users[input.user.key].attributes
-
 default __input_user_attributes = {}
-
 default __input_resource_attributes = {}
-
 default __input_context_attributes = {}
 
+# Get stored user attributes from database
+__stored_user_attributes = data.user_attributes[input.user.key].attributes
+
+# Get input attributes from request
 __input_user_attributes = input.user.attributes
-
 __input_resource_attributes = input.resource.attributes
-
 __input_context_attributes = input.context
 
+# Merge all user attributes (stored + input + generated)
 __user_attributes = merge_objects(__input_user_attributes, __stored_user_attributes)
 
+# Final attributes object
 attributes = {
 	"user": merge_objects(__user_attributes, __generated_user_attributes),
 	"resource": merge_objects(__input_resource_attributes, __generated_resource_attributes),
 	"context": __input_context_attributes,
-	# TODO: When we want to add data from system, use these
-	#	"resource": merge_objects(__input_resource_attributes, data.resource[input.resource.id].attributes),
-	#	"environment": merge_objects(__input_context_environment, data.environment.attributes),
-
 }
 
+# Load permissions from database (this is the key line!)
 condition_set_permissions := data.condition_set_rules
