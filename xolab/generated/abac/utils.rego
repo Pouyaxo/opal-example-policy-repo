@@ -58,16 +58,11 @@ attributes = {
 
 }
 
-# Build condition set permissions using rules instead of complex comprehensions
-# This avoids the variable declaration conflicts we were having
+# Build condition set permissions using simple incremental rules
+# This avoids all variable declaration conflicts by using basic rule syntax
 
-# Helper rule to get actions for a specific permission
-get_actions_for_permission(roleId, resourceId) = actions {
-  actions := {act | some act; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; act := perm.action}
-}
-
-# Build the nested structure using incremental rules
-condition_set_permissions[usk][rsk][rt] = actions {
+# Rule to add an action to a specific userSet-resourceSet-resourceType combination
+condition_set_permissions[usk][rsk][rt] contains action {
   some permission in data.permissions
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
@@ -77,5 +72,5 @@ condition_set_permissions[usk][rsk][rt] = actions {
   rsk := data.resource_sets[permission.resource_id].key
   rt := data.resources[permission.resource_id].type
   
-  actions := get_actions_for_permission(permission.role_id, permission.resource_id)
+  action := permission.action
 }
