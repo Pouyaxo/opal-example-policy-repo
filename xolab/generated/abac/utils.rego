@@ -66,7 +66,7 @@ build_condition_set_permissions() = result {
       resourceSetKey: {
         resourceType: actions
       }
-    } | some userSetKey, resourceSetKey, resourceType, actions
+    } | some userSetKey, resourceSetKey
     # Find all userSet permissions
     some permission in data.permissions
     permission.role_type == "userSet"
