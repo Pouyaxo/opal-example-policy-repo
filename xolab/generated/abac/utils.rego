@@ -63,7 +63,7 @@ attributes = {
 
 # Helper rule to get actions for a specific permission
 get_actions_for_permission(roleId, resourceId) = actions {
-  actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; action := perm.action}
+  actions := {act | some act; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; act := perm.action}
 }
 
 # Build the nested structure using incremental rules
