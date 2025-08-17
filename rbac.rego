@@ -1,4 +1,4 @@
-package xolab.rbac
+package permit.rbac
 
 import future.keywords
 

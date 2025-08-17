@@ -1,7 +1,7 @@
-package xolab.policies
+package permit.policies
 
-import data.xolab.abac
-import data.xolab.rbac
+import data.permit.abac
+import data.permit.rbac
 
 default allow := false
 
