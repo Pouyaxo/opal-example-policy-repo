@@ -1,4 +1,4 @@
-package permit.generated.abac.utils
+package xolab.generated.abac.utils
 
 import future.keywords.in
 
