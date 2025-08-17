@@ -1,4 +1,4 @@
-package permit.generated.abac.utils
+package xolab.generated.abac.utils
 
 import future.keywords.in
 
@@ -58,4 +58,26 @@ attributes = {
 
 }
 
-condition_set_permissions := data.condition_set_rules
+# Simple mapping from role_permissions to condition_set_permissions
+condition_set_permissions := {
+  userSetKey: {
+    resourceSetKey: {
+      resourceType: actions
+    }
+  } | some permission in data.permissions
+  permission.role_type == "userSet"
+  permission.resource_type == "resourceSet"
+  permission.is_granted == true
+  
+  # Get the user set key
+  userSetKey := data.user_sets[permission.role_id].key
+  
+  # Get the resource set key  
+  resourceSetKey := data.resource_sets[permission.resource_id].key
+  
+  # Get the resource type
+  resourceType := data.resources[permission.resource_id].type
+  
+  # Get all actions for this userSet-resourceSet combination
+  actions := {action | some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
+}
