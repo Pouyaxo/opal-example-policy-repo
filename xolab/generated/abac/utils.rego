@@ -68,52 +68,13 @@ test_permission := {
   "action": "subscribe"
 }
 
-# Test individual parts of the logic
-test_user_set_key := usk {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.role_id == "e45bc594-13a3-4dcd-8adf-ce9790f15f85"
-  usk := data.user_sets[permission.role_id].key
-}
-
-test_resource_set_key := rsk {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.resource_id == "0cfa3683-7e60-4ddf-8c76-04bb906d49da"
-  rsk := data.resource_sets[permission.resource_id].key
-}
-
-test_resource_type := rt {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.resource_id == "0cfa3683-7e60-4ddf-8c76-04bb906d49da"
-  resource_type_id := data.resource_sets[permission.resource_id].resource_type_id
-  rt := data.resources[resource_type_id].key
-}
-
-# Rule to add an action to a specific userSet-resourceSet-resourceType combination
-condition_set_permissions[usk][rsk][rt] := action {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  
-  usk := data.user_sets[permission.role_id].key
-  rsk := data.resource_sets[permission.resource_id].key
-  
-  # Get the resource type from the resource set's resource_type_id, then look up the resource type
-  resource_type_id := data.resource_sets[permission.resource_id].resource_type_id
-  rt := data.resources[resource_type_id].key
-  
-  action := permission.action
+# Direct access to condition_set_permissions table
+# This creates the nested structure: condition_set_permissions.USA.servicesBelow500USD.Services = ["subscribe"]
+condition_set_permissions[userSetKey][resourceSetKey][resourceType] := actions {
+  some permission in data.condition_set_permissions
+  permission.user_set_key == userSetKey
+  permission.resource_set_key == resourceSetKey
+  permission.resource_type == resourceType
+  permission.is_active == true
+  actions := permission.actions
 }
