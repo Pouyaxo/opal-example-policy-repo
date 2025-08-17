@@ -8,5 +8,5 @@ default userset_USA = false
 
 userset_USA {
 	attributes.user.location == "USA"
-		attributes.user.department == "Eng"
+	attributes.user.department == "Eng"
 }
