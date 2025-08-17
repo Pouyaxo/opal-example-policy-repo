@@ -4,9 +4,10 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default userset_test = false
+default resourceset_test = false
 
-userset_test {
-	attributes.user.location == "NL"
-		attributes.user.department == "Music"
+resourceset_test {
+	attributes.resource.type == "services"
+	attributes.resource.cost < 500
+		attributes.resource.hasApproval == true
 }
