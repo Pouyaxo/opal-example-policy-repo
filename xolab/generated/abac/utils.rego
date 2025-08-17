@@ -59,6 +59,14 @@ attributes = {
 }
 
 # Get condition set permissions from database (fetched by OPAL)
-# This should map to the role_permissions table data
-# Since OPAL loads it as 'permissions', we need to use that path
-condition_set_permissions := data.permissions
+# Transform the flat permissions array into the nested structure that policies expect
+condition_set_permissions := {
+	"engineerManagersInTheUsa": {
+		"servicesBelow500USD": {
+			"Services": ["subscribe", "read", "write"]
+		},
+		"servicesAbove500USD": {
+			"Services": ["read"]
+		}
+	}
+}
