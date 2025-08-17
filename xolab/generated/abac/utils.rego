@@ -80,8 +80,8 @@ condition_set_permissions := {
   
   # Get the resource type by searching through the array
   some resource in data.resources
-  resource.id == permission.resource_id
-  resourceType := resource.type
+  resource.id == resourceSet.resource_type_id
+  resourceType := resource.key
   
   # Get all actions for this userSet-resourceSet combination
   actions := {action | some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
