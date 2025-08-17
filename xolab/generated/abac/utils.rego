@@ -58,6 +58,24 @@ attributes = {
 
 }
 
-# For now, use simple assignment to avoid compilation issues
-# TODO: Implement proper condition set permissions building when Rego syntax is resolved
-condition_set_permissions := data.condition_set_rules
+# Build condition set permissions using rules instead of complex comprehensions
+# This avoids the variable declaration conflicts we were having
+
+# Helper rule to get actions for a specific permission
+get_actions_for_permission(roleId, resourceId) = actions {
+  actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; action := perm.action}
+}
+
+# Build the nested structure using incremental rules
+condition_set_permissions[usk][rsk][rt] = actions {
+  some permission in data.permissions
+  permission.role_type == "userSet"
+  permission.resource_type == "resourceSet"
+  permission.is_granted == true
+  
+  usk := data.user_sets[permission.role_id].key
+  rsk := data.resource_sets[permission.resource_id].key
+  rt := data.resources[permission.resource_id].type
+  
+  actions := get_actions_for_permission(permission.role_id, permission.resource_id)
+}
