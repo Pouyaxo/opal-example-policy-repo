@@ -70,7 +70,10 @@ condition_set_permissions[usk][rsk][rt] := action {
   
   usk := data.user_sets[permission.role_id].key
   rsk := data.resource_sets[permission.resource_id].key
-  rt := data.resources[permission.resource_id].type
+  
+  # Get the resource type from the resource set's resource_type_id, then look up the resource type
+  resource_type_id := data.resource_sets[permission.resource_id].resource_type_id
+  rt := data.resources[resource_type_id].key
   
   action := permission.action
 }
