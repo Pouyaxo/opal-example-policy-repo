@@ -58,8 +58,12 @@ attributes = {
 
 }
 
+# Helper function to get actions for a specific userSet-resourceSet combination
+get_actions_for_permission(roleId, resourceId) = actions {
+  actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; action := perm.action}
+}
+
 # Transform flat permissions data into nested structure for condition set policies
-# This function builds the nested structure that policies expect
 build_condition_set_permissions() = result {
   result := {
     usk: {
@@ -67,23 +71,19 @@ build_condition_set_permissions() = result {
         rt: actions
       }
     } | some usk, rsk, rt, actions
-    # Find all userSet permissions
+    # Build the nested structure by iterating through permissions
     some permission in data.permissions
     permission.role_type == "userSet"
     permission.resource_type == "resourceSet"
     permission.is_granted == true
     
-    # Get the user set key
+    # Get the keys and type
     usk := data.user_sets[permission.role_id].key
-    
-    # Get the resource set key  
     rsk := data.resource_sets[permission.resource_id].key
-    
-    # Get the resource type
     rt := data.resources[permission.resource_id].type
     
     # Get all actions for this userSet-resourceSet combination
-    actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
+    actions := get_actions_for_permission(permission.role_id, permission.resource_id)
   }
 }
 
