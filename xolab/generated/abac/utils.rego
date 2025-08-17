@@ -71,7 +71,7 @@ test_permission := {
 # Direct access to condition_set_permissions table
 # This creates the nested structure: condition_set_permissions.USA.servicesBelow500USD.Services = ["subscribe"]
 condition_set_permissions[userSetKey][resourceSetKey][resourceType] := actions {
-  some permission in data.condition_set_permissions
+  some permission in data.result.condition_set_permissions
   permission.user_set_key == userSetKey
   permission.resource_set_key == resourceSetKey
   permission.resource_type == resourceType
