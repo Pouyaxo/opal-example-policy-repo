@@ -70,7 +70,8 @@ test_permission := {
 
 # Test individual parts of the logic
 test_user_set_key := usk {
-  some permission in data.permissions
+  some i
+  permission := data.permissions[i]
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
   permission.is_granted == true
@@ -79,7 +80,8 @@ test_user_set_key := usk {
 }
 
 test_resource_set_key := rsk {
-  some permission in data.permissions
+  some i
+  permission := data.permissions[i]
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
   permission.is_granted == true
@@ -88,7 +90,8 @@ test_resource_set_key := rsk {
 }
 
 test_resource_type := rt {
-  some permission in data.permissions
+  some i
+  permission := data.permissions[i]
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
   permission.is_granted == true
@@ -99,7 +102,8 @@ test_resource_type := rt {
 
 # Rule to add an action to a specific userSet-resourceSet-resourceType combination
 condition_set_permissions[usk][rsk][rt] := action {
-  some permission in data.permissions
+  some i
+  permission := data.permissions[i]
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
   permission.is_granted == true
