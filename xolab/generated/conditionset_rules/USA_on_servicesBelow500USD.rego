@@ -6,10 +6,10 @@ import data.xolab.generated.abac.utils.attributes
 import data.xolab.generated.abac.utils.condition_set_permissions
 import data.xolab.generated.conditionset
 
-default engineerManagersInTheUsa_on_servicesBelow500USD = false
+default USA_on_servicesBelow500USD = false
 
-engineerManagersInTheUsa_on_servicesBelow500USD {
-	conditionset.userset_engineerManagersInTheUsa
+USA_on_servicesBelow500USD {
+	conditionset.userset_USA
 	conditionset.resourceset_servicesBelow500USD
-	input.action in condition_set_permissions.engineerManagersInTheUsa.servicesBelow500USD[input.resource.type]
+	input.action in condition_set_permissions.USA.servicesBelow500USD[input.resource.type]
 }
