@@ -64,9 +64,9 @@ build_condition_set_permissions() = result {
   result := {
     userSetKey: {
       resourceSetKey: {
-        resourceType: actions
+        resourceType: actionList
       }
-    } | some userSetKey, resourceSetKey, resourceType, actions
+    } | some userSetKey, resourceSetKey, resourceType, actionList
     # Find all userSet permissions
     some permission in data.permissions
     permission.role_type == "userSet"
@@ -83,7 +83,7 @@ build_condition_set_permissions() = result {
     resourceType := data.resources[permission.resource_id].type
     
     # Get all actions for this userSet-resourceSet combination
-    actions := {action | some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
+    actionList := {action | some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
   }
 }
 
