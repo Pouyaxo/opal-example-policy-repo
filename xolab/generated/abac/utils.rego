@@ -60,4 +60,5 @@ attributes = {
 
 # Get condition set permissions from database (fetched by OPAL)
 # This should map to the role_permissions table data
-condition_set_permissions := data.role_permissions
+# Since OPAL loads it as 'permissions', we need to use that path
+condition_set_permissions := data.permissions
