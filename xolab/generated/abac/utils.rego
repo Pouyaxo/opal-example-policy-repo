@@ -88,8 +88,8 @@ build_condition_set_permissions() = result {
      resource.id == resourceSet.resource_type_id
      resourceType := resource.key
     
-    # Get all actions for this userSet-resourceSet combination
-    actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
+         # Get all actions for this userSet-resourceSet combination
+     actions := {action | some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
   }
 }
 
