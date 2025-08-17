@@ -1,0 +1,9 @@
+roots:
+  - xolab/generated/abac/utils.rego
+  - xolab/generated/conditionset/*.rego
+  - xolab/generated/conditionset_rules/*.rego
+  - xolab/utils/*.rego
+  - xolab/debug/**/*.rego
+  - abac.rego
+  - rbac.rego
+  - root.rego
