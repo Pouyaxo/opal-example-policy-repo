@@ -61,6 +61,13 @@ attributes = {
 # Build condition set permissions using simple rules
 # This avoids all variable declaration conflicts by using basic rule syntax
 
+# Test rule to see if we can access the data
+test_permission := {
+  "role_id": "e45bc594-13a3-4dcd-8adf-ce9790f15f85",
+  "resource_id": "0cfa3683-7e60-4ddf-8c76-04bb906d49da",
+  "action": "subscribe"
+}
+
 # Rule to add an action to a specific userSet-resourceSet-resourceType combination
 condition_set_permissions[usk][rsk][rt] := action {
   some permission in data.permissions
