@@ -102,4 +102,8 @@ test_resource_type := rt {
 
 # Direct access to condition_set_rules JSON data
 # This creates the nested structure: condition_set_permissions.USA.servicesBelow500USD.Services = ["subscribe"]
-condition_set_permissions := data.condition_set_rules[0].rules
+# Note: PostgresFetchProvider converts JSONB to strings, so we need to parse them
+condition_set_permissions := parsed_rules {
+  rules_string := data.condition_set_rules[0].rules
+  parsed_rules := json.unmarshal(rules_string)
+}
