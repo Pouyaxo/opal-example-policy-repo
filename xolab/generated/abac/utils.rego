@@ -62,11 +62,11 @@ attributes = {
 # This function builds the nested structure that policies expect
 build_condition_set_permissions() = result {
   result := {
-    userSetKey: {
-      resourceSetKey: {
-        resourceType: actions
+    usk: {
+      rsk: {
+        rt: actions
       }
-    } | some userSetKey, resourceSetKey, resourceType, actions
+    } | some usk, rsk, rt, actions
     # Find all userSet permissions
     some permission in data.permissions
     permission.role_type == "userSet"
@@ -74,17 +74,15 @@ build_condition_set_permissions() = result {
     permission.is_granted == true
     
     # Get the user set key
-    userSetKey := data.user_sets[permission.role_id].key
+    usk := data.user_sets[permission.role_id].key
     
     # Get the resource set key  
-    resourceSetKey := data.resource_sets[permission.resource_id].key
+    rsk := data.resource_sets[permission.resource_id].key
     
     # Get the resource type
-    resourceType := data.resources[permission.resource_id].type
+    rt := data.resources[permission.resource_id].type
     
     # Get all actions for this userSet-resourceSet combination
     actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == permission.role_id; perm.resource_id == permission.resource_id; action := perm.action}
   }
 }
-
-condition_set_permissions := build_condition_set_permissions()
