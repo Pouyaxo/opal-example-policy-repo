@@ -58,11 +58,11 @@ attributes = {
 
 }
 
-# Build condition set permissions using simple incremental rules
+# Build condition set permissions using simple rules
 # This avoids all variable declaration conflicts by using basic rule syntax
 
 # Rule to add an action to a specific userSet-resourceSet-resourceType combination
-condition_set_permissions[usk][rsk][rt] contains action {
+condition_set_permissions[usk][rsk][rt] := action {
   some permission in data.permissions
   permission.role_type == "userSet"
   permission.resource_type == "resourceSet"
