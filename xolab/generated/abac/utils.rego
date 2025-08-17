@@ -58,33 +58,6 @@ attributes = {
 
 }
 
-# Helper function to get actions for a specific userSet-resourceSet combination
-get_actions_for_permission(roleId, resourceId) = actions {
-  actions := {action | some action; some perm in data.permissions; perm.role_type == "userSet"; perm.resource_type == "resourceSet"; perm.is_granted == true; perm.role_id == roleId; perm.resource_id == resourceId; action := perm.action}
-}
-
-# Transform flat permissions data into nested structure for condition set policies
-build_condition_set_permissions() = result {
-  result := {
-    usk: {
-      rsk: {
-        rt: actions
-      }
-    } | some usk, rsk, rt, actions
-    # Build the nested structure by iterating through permissions
-    some permission in data.permissions
-    permission.role_type == "userSet"
-    permission.resource_type == "resourceSet"
-    permission.is_granted == true
-    
-    # Get the keys and type
-    usk := data.user_sets[permission.role_id].key
-    rsk := data.resource_sets[permission.resource_id].key
-    rt := data.resources[permission.resource_id].type
-    
-    # Get all actions for this userSet-resourceSet combination
-    actions := get_actions_for_permission(permission.role_id, permission.resource_id)
-  }
-}
-
-condition_set_permissions := build_condition_set_permissions()
+# For now, use simple assignment to avoid compilation issues
+# TODO: Implement proper condition set permissions building when Rego syntax is resolved
+condition_set_permissions := data.condition_set_rules
