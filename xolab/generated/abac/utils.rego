@@ -58,52 +58,7 @@ attributes = {
 
 }
 
-# Build condition set permissions using simple rules
-# This avoids all variable declaration conflicts by using basic rule syntax
-
-# Test rule to see if we can access the data
-test_permission := {
-  "role_id": "e45bc594-13a3-4dcd-8adf-ce9790f15f85",
-  "resource_id": "0cfa3683-7e60-4ddf-8c76-04bb906d49da",
-  "action": "subscribe"
-}
-
-# Test individual parts of the logic
-test_user_set_key := usk {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.role_id == "e45bc594-13a3-4dcd-8adf-ce9790f15f85"
-  usk := data.user_sets[permission.role_id].key
-}
-
-test_resource_set_key := rsk {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.resource_id == "0cfa3683-7e60-4ddf-8c76-04bb906d49da"
-  rsk := data.resource_sets[permission.resource_id].key
-}
-
-test_resource_type := rt {
-  some i
-  permission := data.permissions[i]
-  permission.role_type == "userSet"
-  permission.resource_type == "resourceSet"
-  permission.is_granted == true
-  permission.resource_id == "0cfa3683-7e60-4ddf-8c76-04bb906d49da"
-  resource_type_id := data.resource_sets[permission.resource_id].resource_type_id
-  rt := data.resources[resource_type_id].key
-}
-
-# Direct access to condition_set_rules JSON data
+# Direct access to condition_set_rules data
 # This creates the nested structure: condition_set_permissions.USA.servicesBelow500USD.Services = ["subscribe"]
-# Note: PostgresFetchProvider converts JSONB to strings, so we need to parse them
-condition_set_permissions := parsed_rules {
-  rules_string := data.condition_set_rules[0].rules
-  parsed_rules := json.unmarshal(rules_string)
-}
+# Our custom fetch provider transforms flat tables into nested structure and loads it as condition_set_rules
+condition_set_permissions := data.condition_set_rules
