@@ -55,7 +55,6 @@ attributes = {
 	# TODO: When we want to add data from system, use these
 	#	"resource": merge_objects(__input_resource_attributes, data.resource[input.resource.id].attributes),
 	#	"environment": merge_objects(__input_context_environment, data.environment.attributes),
-
 }
 
 # Simple mapping from role_permissions to condition_set_permissions
