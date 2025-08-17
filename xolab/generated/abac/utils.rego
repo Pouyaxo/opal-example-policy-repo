@@ -68,7 +68,6 @@ build_condition_set_permissions() = result {
       }
     } | some permission in data.permissions
     # Find all userSet permissions
-    some permission in data.permissions
     permission.role_type == "userSet"
     permission.resource_type == "resourceSet"
     permission.is_granted == true
