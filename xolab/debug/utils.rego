@@ -1,4 +1,4 @@
-package sxolab.debug.utils
+package xolab.debug.utils
 
 __slice_arr(arr) = sliced_arr {
 	is_array(arr)
