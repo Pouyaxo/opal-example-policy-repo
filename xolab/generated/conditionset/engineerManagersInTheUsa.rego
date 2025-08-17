@@ -8,5 +8,5 @@ default userset_engineerManagersInTheUsa = false
 
 userset_engineerManagersInTheUsa {
 	attributes.user.location == "USA"
-		attributes.user.department == "Eng"
+	attributes.user.department == "Eng"
 }
