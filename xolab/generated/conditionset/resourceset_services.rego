@@ -4,9 +4,8 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default userset_USA = false
+default resourceset_services = false
 
-userset_USA {
-	attributes.user.location == "USA"
-	attributes.user.department == "Eng"
+resourceset_services {
+	attributes.resource.type == "services"
 }
