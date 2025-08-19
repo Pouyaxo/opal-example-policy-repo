@@ -1,1 +1,0 @@
-../../opa eval --v0-compatible --data test-data.json --data genarated-policy/xolab/generated/conditionset_rules/testRole_on_services.rego --data genarated-policy/xolab/generated/conditionset/testRole.rego --data genarated-policy/xolab/generated/conditionset/resourceset_services.rego --input test-input-1.json 'data.xolab.generated.conditionset.rules.testRole_on_services'
