@@ -4,9 +4,9 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default resourceset_tracks = false
+default resourceset_tracksh = false
 
-resourceset_tracks {
-	attributes.resource.type == "tracks"
+resourceset_tracksh {
+	attributes.resource.type == "tracksh"
 
 }
