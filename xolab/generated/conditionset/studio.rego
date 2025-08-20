@@ -4,9 +4,9 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default resourceset_studioResource = false
+default resourceset_studio = false
 
-resourceset_studioResource {
-	attributes.resource.type == "studioResource"
+resourceset_studio {
+	attributes.resource.type == "studio"
 
 }
