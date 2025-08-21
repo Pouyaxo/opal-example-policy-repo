@@ -1,0 +1,15 @@
+package xolab.generated.conditionset.rules
+
+import future.keywords.in
+
+import data.xolab.generated.abac.utils.attributes
+import data.xolab.generated.abac.utils.condition_set_permissions
+import data.xolab.generated.conditionset
+
+default freePlanUsers_on_trcaksForSellers = false
+
+freePlanUsers_on_trcaksForSellers {
+	conditionset.userset_freePlanUsers
+	conditionset.resourceset_trcaksForSellers
+	input.action in condition_set_permissions.freePlanUsers.trcaksForSellers[input.resource.type]
+}
