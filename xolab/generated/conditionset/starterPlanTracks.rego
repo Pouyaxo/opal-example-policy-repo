@@ -8,5 +8,5 @@ default resourceset_starterPlanTracks = false
 
 resourceset_starterPlanTracks {
 	attributes.resource.type == "track"
-	attributes.resource.planTrackLimit > attributes.user.currentTrackCount
+	attributes.resource.planTrackLimit >= attributes.user.currentTrackCount
 }
