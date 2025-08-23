@@ -8,5 +8,5 @@ default resourceset_basicPlanTracks = false
 
 resourceset_basicPlanTracks {
 	attributes.resource.type == "track"
-	attributes.resource.basicPlanTrackLimit > attributes.user.currentTrackCount
+	attributes.resource.basicPlanTrackLimit >= attributes.user.currentTrackCount
 }
