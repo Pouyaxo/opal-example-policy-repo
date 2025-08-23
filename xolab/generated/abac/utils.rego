@@ -54,7 +54,7 @@ __stored_resource_attributes = data.resources[input.resource.type].attributes
 
 attributes = {
 	"user": merge_objects(__user_attributes, __generated_user_attributes),
-	"resource": merge_objects(__input_resource_attributes, __generated_resource_attributes, __stored_resource_attributes),
+	"resource": merge_objects(merge_objects(__input_resource_attributes, __generated_resource_attributes), __stored_resource_attributes),
 	"context": __input_context_attributes,
 	# TODO: When we want to add data from system, use these
 	#	"environment": merge_objects(__input_context_environment, data.environment.attributes),
