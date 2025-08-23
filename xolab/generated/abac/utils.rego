@@ -48,14 +48,16 @@ __input_context_attributes = input.context
 
 __user_attributes = merge_objects(__input_user_attributes, __stored_user_attributes)
 
+# Load stored resource attributes from the database
+default __stored_resource_attributes = {}
+__stored_resource_attributes = data.resources[input.resource.type].attributes
+
 attributes = {
 	"user": merge_objects(__user_attributes, __generated_user_attributes),
-	"resource": merge_objects(__input_resource_attributes, __generated_resource_attributes),
+	"resource": merge_objects(__input_resource_attributes, __generated_resource_attributes, __stored_resource_attributes),
 	"context": __input_context_attributes,
 	# TODO: When we want to add data from system, use these
-	#	"resource": merge_objects(__input_resource_attributes, data.resource[input.resource.id].attributes),
 	#	"environment": merge_objects(__input_context_environment, data.environment.attributes),
-
 }
 
 # Direct access to condition_set_rules data
