@@ -4,8 +4,8 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default userset_proPlanUsers = false
+default userset_premiumPlanUsers = false
 
-userset_proPlanUsers {
-	attributes.user.subscriptionPlan == "pro"
+userset_premiumPlanUsers {
+	attributes.user.subscriptionPlan == "premium"
 }
