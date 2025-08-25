@@ -41,10 +41,10 @@ __convert_resourceset_name_to_response(resourceset) = decoded_name {
 }
 
 is_allowing_pair(userset, resourceset) {
-	# Strip userset_ prefix to get the clean key for condition_set_permissions lookup
-	clean_userset := trim_prefix(userset, "userset_")
-	# Strip resourceset_ prefix to get the clean key for condition_set_permissions lookup  
-	clean_resourceset := trim_prefix(resourceset, "resourceset_")
+	# Strip userset_ prefix and decode _5f_5f to __ for __autogen_ keys
+	clean_userset := regex.replace(trim_prefix(userset, "userset_"), "_5f_5f", "__")
+	# Strip resourceset_ prefix and decode _5f_5f to __ for __autogen_ keys
+	clean_resourceset := regex.replace(trim_prefix(resourceset, "resourceset_"), "_5f_5f", "__")
 	
 	# get the permissions in this couple of userset <> resourceset using clean keys
 	permissions := abac_utils.condition_set_permissions[clean_userset][clean_resourceset][input.resource.type]
