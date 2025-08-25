@@ -18,15 +18,7 @@ default allow := false
 
 # Allow the action if the user is granted permission to perform the action.
 allow {
-	# First validate that the tenant exists
-	valid_tenant
 	count(matching_grants) > 0
-}
-
-# Validate that the requested tenant exists in our data
-valid_tenant {
-	input_query.resource.tenant != null
-	data.tenants[input_query.resource.tenant]
 }
 
 matching_grants[grant] {
