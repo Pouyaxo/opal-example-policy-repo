@@ -4,9 +4,9 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default resourceset_proPage = false
+default resourceset__5f_5fautogen_5fproPage = false
 
-resourceset_proPage {
+resourceset__5f_5fautogen_5fproPage {
 	attributes.resource.type == "proPage"
 
 }

@@ -4,8 +4,8 @@ import future.keywords.in
 
 import data.xolab.generated.abac.utils.attributes
 
-default userset_seller = false
+default userset__5f_5fautogen_5fseller = false
 
-userset_seller {
+userset__5f_5fautogen_5fseller {
 	"seller" in attributes.user.roles
 }

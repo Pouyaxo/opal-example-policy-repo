@@ -9,7 +9,7 @@ import data.xolab.generated.conditionset
 default seller_on_proPage = false
 
 seller_on_proPage {
-	conditionset.userset_seller
-	conditionset.resourceset_proPage
-	input.action in condition_set_permissions.seller.proPage[input.resource.type]
+	conditionset.userset__5f_5fautogen_5fseller
+	conditionset.resourceset__5f_5fautogen_5fproPage
+	input.action in condition_set_permissions.__autogen_seller.__autogen_proPage[input.resource.type]
 }
