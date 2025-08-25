@@ -41,8 +41,13 @@ __convert_resourceset_name_to_response(resourceset) = decoded_name {
 }
 
 is_allowing_pair(userset, resourceset) {
-	# get the permissions in this couple of userset <> resourceset
-	permissions := abac_utils.condition_set_permissions[userset][resourceset][input.resource.type]
+	# Strip userset_ prefix to get the clean key for condition_set_permissions lookup
+	clean_userset := trim_prefix(userset, "userset_")
+	# Strip resourceset_ prefix to get the clean key for condition_set_permissions lookup  
+	clean_resourceset := trim_prefix(resourceset, "resourceset_")
+	
+	# get the permissions in this couple of userset <> resourceset using clean keys
+	permissions := abac_utils.condition_set_permissions[clean_userset][clean_resourceset][input.resource.type]
 
 	# check if the specified action is allowed in this couple of userset <> resourceset
 	input.action in permissions
