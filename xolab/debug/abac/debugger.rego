@@ -7,27 +7,57 @@ import future.keywords.in
 default details := null
 
 details = details {
-    # if the request was made from a cloud pdp
-    input.context.pdp_type == "cloud"
-    count(data.condition_sets) > 0
-    details := codes("cloud_pdp_not_supporting_abac")
+    # Simple case: if ABAC allows, show allow
+    abac.allow
+    details := {
+        "allow": true,
+        "code": "allow",
+        "matching_usersets": abac.matching_usersets,
+        "matching_resourcesets": abac.matching_resourcesets,
+        "reason": sprintf(
+            "user '%s' matched userset conditions and resource matched resourceset conditions",
+            [input.user.key]
+        )
+    }
 } else = details {
-	# in case of rbac deny, return the denying roles
-	not activated
-	details := codes("disabled")
+    # If ABAC is not activated
+    not abac.activated
+    details := {
+        "allow": false,
+        "code": "disabled",
+        "reason": "ABAC is not activated"
+    }
 } else = details {
-	# in case of abac allow, return the allowing details
-	allow
-	details := codes("allow")
+    # If no matching usersets
+    count(abac.matching_usersets) == 0
+    details := {
+        "allow": false,
+        "code": "no_matching_usersets",
+        "reason": sprintf(
+            "user '%s' did not match any userset conditions",
+            [input.user.key]
+        )
+    }
 } else = details {
-	# if there are no matching usersets
-	count(abac.matching_usersets) == 0
-	details := codes("no_matching_usersets")
+    # If no matching resourcesets
+    count(abac.matching_resourcesets) == 0
+    details := {
+        "allow": false,
+        "code": "no_matching_resourcesets",
+        "reason": sprintf(
+            "resource did not match any resourceset conditions"
+        )
+    }
 } else = details {
-	# if there are no matching resourcesets
-	count(abac.matching_resourcesets) == 0
-	details := codes("no_matching_resourcesets")
-} else = details {
-	# if the user does not have the required permissions ( grants )
-	details := codes("no_matching_rules")
+    # Default case: no matching rules
+    details := {
+        "allow": false,
+        "code": "no_matching_rules",
+        "matching_usersets": abac.matching_usersets,
+        "matching_resourcesets": abac.matching_resourcesets,
+        "reason": sprintf(
+            "user '%s' does not have the '%s' permission on resources of type '%s'",
+            [input.user.key, input.action, input.resource.type]
+        )
+    }
 }
