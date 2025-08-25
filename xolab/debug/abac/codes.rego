@@ -11,10 +11,7 @@ import data.xolab.utils
 
 __codes("allow") = {
 	"allowing_rules": allowing_rules,
-	"reason": count(allowing_rules) > 0 ? format_reason_msg(allowing_rules[0]) : sprintf(
-		"user '%s' matched userset conditions and resource matched resourceset conditions, but no specific rule details available",
-		[input.user.key]
-	),
+	"reason": format_reason_msg(allowing_rules[0]),
 }
 
 __codes("no_matching_usersets") = {"reason": sprintf(
