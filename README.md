@@ -7,3 +7,47 @@ To run these files, the repository should be configured to work with [Permit.io'
 Alternativlet these files can be uplaoded directly to OPA (As bundles), or via [OPAL](https://github.com/permitio/opal/).
 ssd
 sa
+
+
+curl -H "Authorization: Bearer test-datasource-token-123" http://localhost:3001/api/opal/policy-data 2>/dev/null | jq '.roles'
+
+
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "input": {
+    "user": {
+      "key": "fe9f6b3e-50e3-427b-9384-4fa4b10e02d2",
+      "attributes": {
+        "currentTrackCount": 60,
+        "subscriptionPlan": "premium"
+      }
+    },
+    "action": "delete",
+    "resource": {
+      "type": "proPage",
+      "attributes": {},
+      "tenant": "xolab"
+    }
+  }
+}' http://localhost:8181/v1/data/xolab/root/debug 2>/dev/null | jq '.result | {allow: .rbac.allow, reason: .rbac.reason}'
+
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "input": {
+    "user": {
+      "key": "fe9f6b3e-50e3-427b-9384-4fa4b10e02d2",
+      "attributes": {
+        "currentTrackCount": 60,
+        "subscriptionPlan": "premium"
+      }
+    },
+    "action": "delete",
+    "resource": {
+      "type": "proPage",
+      "attributes": {},
+      "tenant": "wrongtenant"
+    }
+  }
+}' http://localhost:8181/v1/data/xolab/root/debug 2>/dev/null | jq '.result | {allow: .rbac.allow, reason: .rbac.reason}'
