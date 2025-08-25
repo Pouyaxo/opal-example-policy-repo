@@ -3,7 +3,7 @@ package xolab.debug
 import future.keywords.in
 
 import data.xolab.custom
-import data.xolab.abac
+import data.xolab.debug.abac
 import data.xolab.debug.rbac
 import data.xolab.policies
 import data.xolab.root
@@ -64,35 +64,16 @@ __debug_details["rbac"] = result {
 __debug_details["abac"] = result {
 	# show abac debug for abac allowed requests
 	abac.allow
-	result := {
-		"allow": abac.allow,
-		"allowing_rules": abac.allowing_rules,
-		"matching_usersets": abac.matching_usersets,
-		"matching_resourcesets": abac.matching_resourcesets,
-		"code": count(abac.allowing_rules) > 0 ? "allow" : "no_matching_rules",
-		"reason": count(abac.allowing_rules) > 0 ? 
-			sprintf("user has permission through rules: %s", [concat(", ", abac.allowing_rules)]) :
-			"user does not match any rule that grants permission"
-	}
+	result := abac.details
 }
 
 __debug_details["abac"] = result {
-	# show abac debug for abac denied requests
-	not abac.allow
+	# show abac deny debug only if no other model allowed the request and abac is activated
+	not rbac.allow
+	not custom.allow
 	abac.activated
-	result := {
-		"allow": abac.allow,
-		"matching_usersets": abac.matching_usersets,
-		"matching_resourcesets": abac.matching_resourcesets,
-		"code": count(abac.matching_usersets) == 0 ? "no_matching_usersets" : 
-			count(abac.matching_resourcesets) == 0 ? "no_matching_resourcesets" : "no_matching_rules",
-		"reason": count(abac.matching_usersets) == 0 ? 
-			sprintf("user '%s' did not match any userset conditions", [input.user.key]) :
-			count(abac.matching_resourcesets) == 0 ? 
-			"the given resource did not match any resourceset conditions" :
-			sprintf("user '%s' does not match any rule that grants him the '%s' permission on the given resource of type '%s'", 
-				[input.user.key, input.action, input.resource.type])
-	}
+	not abac.allow
+	result := abac.details
 }
 
 __debug_details["custom"] = result {
