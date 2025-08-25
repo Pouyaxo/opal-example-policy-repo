@@ -12,11 +12,11 @@ details = details {
     count(data.condition_sets) > 0
     details := codes("cloud_pdp_not_supporting_abac")
 } else = details {
-	# in case of rbac deny, return the denying roles
+	# in case of abac not activated
 	not activated
 	details := codes("disabled")
 } else = details {
-	# in case of rbac allow, return the allowing roles
+	# in case of abac allow, return the allowing rules
 	allow
 	details := codes("allow")
 } else = details {
@@ -28,6 +28,7 @@ details = details {
 	count(abac.matching_resourcesets) == 0
 	details := codes("no_matching_resourcesets")
 } else = details {
-	# if the user does not have the required permissions ( grants )
+	# if there are no allowing rules (this was the missing check!)
+	count(abac.allowing_rules) == 0
 	details := codes("no_matching_rules")
 }
