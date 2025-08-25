@@ -12,20 +12,13 @@ details = details {
     count(data.condition_sets) > 0
     details := codes("cloud_pdp_not_supporting_abac")
 } else = details {
-	# in case of abac not activated, return disabled
+	# in case of rbac deny, return the denying roles
 	not activated
 	details := codes("disabled")
 } else = details {
-	# in case of abac allow, return the allowing rules
+	# in case of rbac allow, return the allowing roles
 	allow
-	details := {
-		"allow": allow,
-		"allowing_rules": abac.allowing_rules,
-		"matching_usersets": abac.matching_usersets,
-		"matching_resourcesets": abac.matching_resourcesets,
-		"code": "allow",
-		"reason": sprintf("user has permission through rules: %s", [concat(", ", abac.allowing_rules)])
-	}
+	details := codes("allow")
 } else = details {
 	# if there are no matching usersets
 	count(abac.matching_usersets) == 0
