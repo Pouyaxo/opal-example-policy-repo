@@ -3,7 +3,7 @@ package xolab.debug
 import future.keywords.in
 
 import data.xolab.custom
-import data.xolab.abac
+import data.xolab.debug.abac
 import data.xolab.debug.rbac
 import data.xolab.policies
 import data.xolab.root

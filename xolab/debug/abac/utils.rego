@@ -50,16 +50,7 @@ is_allowing_pair(userset, resourceset) {
 
 default allowing_rules := []
 
-allowing_rules = [
-# merge the userset and resourceset details
-utils.merge_objects(__convert_userset_name_to_response(userset), __convert_resourceset_name_to_response(resourceset)) |
-	# check that the couple of userset <> resourceset is granting the relevant permission
-	is_allowing_pair(userset, resourceset)
-
-	# iterate over all the matching usersets and resourcesets pairs
-	userset = abac.matching_usersets[i]
-	resourceset = abac.matching_resourcesets[j]
-]
+allowing_rules = abac.allowing_rules
 
 format_reason_msg(allowing_rule) = msg {
 	userset := allowing_rule.userset
