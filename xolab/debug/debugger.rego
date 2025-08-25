@@ -62,8 +62,9 @@ __debug_details["rbac"] = result {
 }
 
 __debug_details["abac"] = result {
-	# show abac debug for abac allowed requests
+	# show abac debug for abac allowed requests, but only if rbac didn't allow
 	abac.allow
+	not rbac.allow
 	result := abac.details
 }
 
