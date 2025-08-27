@@ -8,5 +8,5 @@ default resourceset_premiumPlanTracks = false
 
 resourceset_premiumPlanTracks {
 	attributes.resource.type == "track"
-	attributes.resource.premiumPlanTrackLimit  >= attributes.user.currentTrackCount
+	attributes.resource.premiumPlanTrackLimit == "999999"
 }
